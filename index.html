@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desafio de Matemática — 6º Ano</title>
+<style>
+/* Skip artifact shell — fixed styles served beside every artifact.
+   Tokens, utilities and components (basecoat 1.0 markup, no CDN); artifacts
+   override --accent for their own identity. */
+:root {
+  color-scheme: light dark;
+  --accent: #2563eb;
+  --accent-contrast: #ffffff;
+  --accent-text: color-mix(in srgb, var(--accent) 72%, #000);
+  --bg: #f8f9fb;
+  --surface: #ffffff;
+  --text: #14171f;
+  --text-muted: #5b6472;
+  --border: rgba(20, 23, 31, 0.10);
+  --radius: 10px;
+  --shadow: 0 1px 3px rgba(20, 23, 31, 0.08);
+  --space: 16px;
+  --success: #0a7a35;
+  --danger: #c0262d;
+  --warning: #8a5300;
+}
+/* Theme resolution. Without data-theme the viewer's system preference decides,
+   as it always did. With it, the artifact's own choice wins in BOTH directions:
+   a page that hardcodes one palette must not be handed the opposite set of
+   tokens by the machine it happens to be opened on. The dark values appear
+   twice because a media query cannot be folded into a selector list.
+   The attribute sits inside :where() so these blocks keep the specificity of a
+   bare :root — the page's own <style> is linked after this file and must go on
+   overriding any token it wants, exactly as it could before. */
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    --accent-text: color-mix(in srgb, var(--accent) 78%, #fff);
+    --bg: #101318;
+    --surface: #181c23;
+    --text: #eef1f6;
+    --text-muted: #9aa4b2;
+    --border: rgba(238, 241, 246, 0.12);
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    --success: #4ade80;
+    --danger: #f87171;
+    --warning: #fbbf24;
+  }
+}
+:root:where([data-theme="dark"]) {
+  color-scheme: dark;
+  --accent-text: color-mix(in srgb, var(--accent) 78%, #fff);
+  --bg: #101318;
+  --surface: #181c23;
+  --text: #eef1f6;
+  --text-muted: #9aa4b2;
+  --border: rgba(238, 241, 246, 0.12);
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --success: #4ade80;
+  --danger: #f87171;
+  --warning: #fbbf24;
+}
+:root:where([data-theme="light"]) { color-scheme: light; }
+/* Pages generated before the shell had its own components still link the
+   basecoat CDN, which reads its own tokens and switches theme only on a
+   .dark class. Bridged to the shell's, whatever of it those pages use takes
+   the page's accent and follows the declared theme. Its --accent token is a
+   hover tint, renamed in its theme as --color-accent; the shell's --accent is
+   the brand colour, so the tint is derived from it here. */
+:root {
+  --background: var(--bg);
+  --foreground: var(--text);
+  --card: var(--surface);
+  --card-foreground: var(--text);
+  --popover: var(--surface);
+  --popover-foreground: var(--text);
+  --primary: var(--accent);
+  --primary-foreground: var(--accent-contrast);
+  --secondary: color-mix(in srgb, var(--text) 7%, var(--surface));
+  --secondary-foreground: var(--text);
+  --muted: color-mix(in srgb, var(--text) 5%, var(--surface));
+  --muted-foreground: var(--text-muted);
+  --color-accent: color-mix(in srgb, var(--accent) 12%, var(--surface));
+  --color-accent-foreground: var(--text);
+  --destructive: var(--danger);
+  --input: var(--border);
+  --ring: var(--accent);
+}
+* { box-sizing: border-box; }
+/* The reset the pages were written against: they all linked basecoat, which
+   ships Tailwind's. Its components now live here, so the reset does too. */
+*, ::before, ::after, ::backdrop { margin: 0; padding: 0; border: 0 solid; }
+/* Preflight's rule too: without it a component class that sets display
+   (.alert, .card, .btn…) beats the hidden attribute and shows the element. */
+[hidden]:where(:not([hidden="until-found"])) { display: none !important; }
+.hidden { display: none !important; }
+h1, h2, h3, h4, h5, h6 { font-size: inherit; font-weight: inherit; }
+a { color: inherit; text-decoration: inherit; }
+b, strong { font-weight: bolder; }
+ol, ul, menu { list-style: none; }
+svg, video, canvas, iframe { display: block; vertical-align: middle; }
+button, input, select, textarea { color: inherit; background-color: transparent; border-radius: 0; }
+table { border-collapse: collapse; }
+hr { height: 0; color: inherit; border-top-width: 1px; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+
+.shell-container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+.shell-section { padding: calc(var(--space) * 2) 0; }
+.shell-grid { display: grid; gap: var(--space); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.shell-toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: var(--space); }
+.shell-footer { padding: 24px 0 40px; color: var(--text-muted); font-size: 13px; }
+
+.shell-hero { padding: calc(var(--space) * 3) 0 calc(var(--space) * 2); }
+.shell-hero h1 { font-size: clamp(26px, 4vw, 40px); line-height: 1.15; margin: 0 0 10px; text-wrap: balance; }
+.shell-hero p { color: var(--text-muted); max-width: 60ch; margin: 0; }
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--space);
+}
+
+.kpi { display: flex; flex-direction: column; gap: 4px; }
+.kpi .kpi-value { font-size: clamp(22px, 2.3vw, 28px); font-weight: 650; line-height: 1.1; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.kpi .kpi-label { font-size: 13px; color: var(--text-muted); }
+.kpi .kpi-delta { font-size: 12.5px; font-weight: 600; }
+.kpi .kpi-delta.up { color: var(--success); }
+.kpi .kpi-delta.down { color: var(--danger); }
+
+table.shell-table { border-collapse: collapse; width: 100%; font-size: 14px; }
+table.shell-table th {
+  text-align: left; font-size: 11.5px; letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--text-muted); font-weight: 600;
+}
+table.shell-table th, table.shell-table td { padding: 9px 12px 9px 0; border-bottom: 1px solid var(--border); }
+table.shell-table td.num, table.shell-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+table.shell-table tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); }
+
+.chart-box { width: 100%; min-height: 220px; }
+.chart-box svg { width: 100%; height: auto; display: block; }
+.chart-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 16px; margin-top: 12px; font-size: 12.5px; color: var(--text-muted); }
+.chart-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.chart-legend i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.chart-legend b { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.muted { color: var(--text-muted); }
+.accent { color: var(--accent-text); }
+.shell-badge, .eyebrow {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--accent-text);
+}
+/* A pill keeps its content width inside flex and grid columns, which would
+   otherwise stretch it across the card; a centred parent still centres it. */
+.shell-badge, .eyebrow, .badge { width: fit-content; max-width: 100%; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .shell-fade { animation: shell-fade 400ms ease both; }
+  @keyframes shell-fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+}
+
+/* Layout and type utilities: what the pages kept spelling in style="".
+   Spacing and type sizes follow Tailwind's scale; there is no Tailwind. */
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.stack { display: flex; flex-direction: column; gap: var(--space); }
+.between { justify-content: space-between; }
+.grow { flex: 1 1 0; min-width: 0; }
+.cols-2, .cols-3, .cols-4, .cols-5 { display: grid; gap: var(--space); grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 720px) {
+  .cols-2, .cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .cols-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 1000px) { .cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+.gap-1 { gap: 4px; } .gap-2 { gap: 8px; } .gap-3 { gap: 12px; } .gap-4 { gap: 16px; } .gap-6 { gap: 24px; }
+.m-0 { margin: 0; }
+.mt-1 { margin-top: 4px; } .mt-2 { margin-top: 8px; } .mt-3 { margin-top: 12px; } .mt-4 { margin-top: 16px; } .mt-6 { margin-top: 24px; }
+.mb-1 { margin-bottom: 4px; } .mb-2 { margin-bottom: 8px; } .mb-3 { margin-bottom: 12px; } .mb-4 { margin-bottom: 16px; } .mb-6 { margin-bottom: 24px; }
+.p-2 { padding: 8px; } .p-3 { padding: 12px; } .p-4 { padding: 16px; } .p-6 { padding: 24px; }
+.text-xs { font-size: 12px; } .text-sm { font-size: 14px; } .text-base { font-size: 16px; }
+.text-lg { font-size: 18px; } .text-xl { font-size: 20px; line-height: 1.35; }
+.text-2xl { font-size: 24px; line-height: 1.25; } .text-3xl { font-size: 30px; line-height: 1.2; }
+.font-medium { font-weight: 500; } .font-semibold { font-weight: 600; } .font-bold { font-weight: 700; }
+.text-right { text-align: right; } .text-center { text-align: center; }
+.nowrap { white-space: nowrap; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-variant-numeric: tabular-nums; }
+.w-full { width: 100%; }
+.text-success { color: var(--success); } .text-danger { color: var(--danger); } .text-warning { color: var(--warning); }
+
+/* Components, with basecoat 1.0 markup (variants and sizes are data
+   attributes) and the shell tokens, so a page needs neither component CSS
+   nor a CSS framework. An older page that also links basecoat gets these
+   rules after it, over the same properties. */
+button, input, select, textarea { font: inherit; }
+input[type="checkbox"], input[type="radio"] { accent-color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  height: 36px; padding: 0 14px; border: 1px solid transparent; border-radius: calc(var(--radius) - 2px);
+  background: var(--accent); color: var(--accent-contrast);
+  font-size: 14px; font-weight: 500; line-height: 1; white-space: nowrap; text-decoration: none; cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+.btn:hover { background: color-mix(in srgb, var(--accent) 86%, #000); }
+.btn:disabled, .btn[aria-disabled="true"] { opacity: 0.5; pointer-events: none; }
+.btn[data-variant="secondary"] { background: color-mix(in srgb, var(--text) 8%, var(--surface)); color: var(--text); }
+.btn[data-variant="secondary"]:hover { background: color-mix(in srgb, var(--text) 14%, var(--surface)); }
+.btn[data-variant="outline"] { background: var(--surface); color: var(--text); border-color: var(--border); }
+.btn[data-variant="ghost"] { background: transparent; color: var(--text); }
+.btn[data-variant="outline"]:hover, .btn[data-variant="ghost"]:hover { background: color-mix(in srgb, var(--accent) 10%, var(--surface)); }
+.btn[data-variant="destructive"] { background: var(--danger); color: var(--bg); }
+.btn[data-variant="destructive"]:hover { background: color-mix(in srgb, var(--danger) 86%, var(--text)); }
+.btn[data-variant="link"] { height: auto; padding: 0; background: none; color: var(--accent-text); text-decoration: underline; text-underline-offset: 3px; }
+.btn[data-size="sm"] { height: 30px; padding: 0 10px; font-size: 13px; }
+.btn[data-size="lg"] { height: 42px; padding: 0 20px; font-size: 15px; }
+.btn[data-size="icon"] { width: 36px; padding: 0; }
+
+.badge {
+  display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px;
+  border: 1px solid transparent; border-radius: 999px; background: var(--accent); color: var(--accent-contrast);
+  font-size: 12px; font-weight: 600; line-height: 1.5; white-space: nowrap;
+}
+.badge[data-variant="secondary"] { background: color-mix(in srgb, var(--text) 8%, var(--surface)); color: var(--text); }
+.badge[data-variant="outline"] { background: transparent; color: var(--text); border-color: var(--border); }
+.badge[data-variant="destructive"] { background: color-mix(in srgb, var(--danger) 14%, var(--surface)); color: var(--danger); }
+
+.alert {
+  display: grid; gap: 4px; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface); color: var(--text); font-size: 14px;
+}
+.alert h2, .alert h3 { margin: 0; font-size: 14px; font-weight: 600; }
+.alert p, .alert section { margin: 0; color: var(--text-muted); }
+.alert[data-variant="destructive"] { border-color: color-mix(in srgb, var(--danger) 45%, var(--border)); background: color-mix(in srgb, var(--danger) 7%, var(--surface)); color: var(--danger); }
+
+.card {
+  display: flex; flex-direction: column; gap: 16px; padding: 20px 0;
+  border: 1px solid var(--border); border-radius: calc(var(--radius) + 2px);
+  background: var(--surface); color: var(--text); box-shadow: var(--shadow);
+}
+.card > header, .card > section, .card > footer { padding: 0 20px; }
+.card > header { display: grid; gap: 4px; }
+.card > header h2, .card > header h3 { margin: 0; font-size: 16px; font-weight: 600; line-height: 1.3; }
+.card > header p { margin: 0; color: var(--text-muted); font-size: 14px; }
+.card > footer { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+
+.input {
+  width: 100%; min-height: 36px; padding: 6px 12px; border: 1px solid var(--border); border-radius: calc(var(--radius) - 2px);
+  background: var(--surface); color: var(--text); font-size: 14px;
+}
+textarea.input { min-height: 84px; resize: vertical; }
+.input::placeholder { color: var(--text-muted); }
+.input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent); }
+.field { display: grid; gap: 6px; }
+.field label { font-size: 14px; font-weight: 500; }
+.field [role="alert"] { color: var(--danger); font-size: 13px; }
+
+dialog.dialog {
+  width: min(520px, calc(100vw - 32px)); max-height: calc(100vh - 32px); margin: auto; padding: 0;
+  border: 1px solid var(--border); border-radius: calc(var(--radius) + 4px);
+  background: var(--surface); color: var(--text); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+dialog.dialog::backdrop { background: rgba(0, 0, 0, 0.5); }
+dialog.dialog > div { display: grid; gap: 16px; padding: 24px; }
+dialog.dialog header { display: grid; gap: 4px; }
+dialog.dialog header h2 { margin: 0; font-size: 18px; font-weight: 600; }
+dialog.dialog header p { margin: 0; color: var(--text-muted); font-size: 14px; }
+dialog.dialog footer { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+
+.tabs { display: grid; gap: 12px; }
+.tabs > [role="tablist"] {
+  display: inline-flex; gap: 4px; width: fit-content; max-width: 100%; padding: 4px; overflow-x: auto;
+  border-radius: var(--radius); background: color-mix(in srgb, var(--text) 6%, var(--surface));
+}
+.tabs [role="tab"] {
+  padding: 6px 12px; border: 0; border-radius: calc(var(--radius) - 4px); background: transparent;
+  color: var(--text-muted); font-size: 14px; font-weight: 500; white-space: nowrap; cursor: pointer;
+}
+.tabs [role="tab"][aria-selected="true"] { background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
+.tabs [role="tabpanel"][hidden] { display: none; }
+
+.accordion > details { border-bottom: 1px solid var(--border); }
+.accordion > details > summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 14px 0; font-weight: 500; list-style: none; cursor: pointer;
+}
+.accordion > details > summary::-webkit-details-marker { display: none; }
+.accordion > details > summary::after { content: "+"; color: var(--text-muted); font-size: 18px; line-height: 1; }
+.accordion > details[open] > summary::after { content: "\2212"; }
+.accordion > details > :not(summary) { margin: 0 0 14px; color: var(--text-muted); }
+
+.toaster {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50; display: flex; flex-direction: column-reverse; gap: 8px;
+  width: min(360px, calc(100vw - 32px)); pointer-events: none;
+}
+.toaster .toast { pointer-events: auto; transition: opacity 200ms ease, transform 200ms ease; }
+.toaster .toast[aria-hidden="true"] { opacity: 0; transform: translateY(8px); }
+.toaster .toast-content {
+  padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface); color: var(--text); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); font-size: 13px;
+}
+.toaster .toast-content h2 { margin: 0 0 2px; font-size: 14px; font-weight: 600; }
+.toaster .toast-content p { margin: 0; color: var(--text-muted); }
+
+/* skipUI building blocks. */
+.skip-table-search { max-width: 320px; margin-bottom: 12px; }
+.skip-table-wrap { overflow-x: auto; }
+table.shell-table th[data-sort] { cursor: pointer; user-select: none; }
+table.shell-table th[aria-sort="ascending"]::after { content: " \25B2"; font-size: 9px; }
+table.shell-table th[aria-sort="descending"]::after { content: " \25BC"; font-size: 9px; }
+table.shell-table td.skip-table-empty { color: var(--text-muted); text-align: center; padding: 24px 0; }
+.skip-pager { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; font-size: 13px; color: var(--text-muted); }
+.toaster .toast[data-type="success"] .toast-content { border-left: 3px solid var(--success); }
+.toaster .toast[data-type="error"] .toast-content { border-left: 3px solid var(--danger); }
+
+</style>
+<script>
+/* Skip artifact shell — fixed helpers served beside every artifact. */
+(function () {
+  "use strict";
+
+  var fmt = {
+    num: function (v, opts) { return new Intl.NumberFormat("pt-BR", opts || {}).format(v); },
+    brl: function (v) { return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(v); },
+    pct: function (v) { return new Intl.NumberFormat("pt-BR", { style: "percent", maximumFractionDigits: 1 }).format(v); },
+    compact: function (v) { return new Intl.NumberFormat("pt-BR", { notation: "compact", maximumFractionDigits: 1 }).format(v); },
+    brlCompact: function (v) { return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", notation: "compact", maximumFractionDigits: 1 }).format(v); }
+  };
+
+  // axisLabels formats the five y-axis ticks in the unit the chart declared
+  // (percent, BRL or plain numbers), compact so long values never clip, with
+  // the fewest decimals that still print every tick exactly (1,5 mi, not 2 mi).
+  function axisLabels(format, ticks) {
+    function at(digits) {
+      var opts = { notation: "compact", maximumFractionDigits: digits };
+      if (format === "pct") opts = { style: "percent", maximumFractionDigits: digits };
+      else if (format === "brl") opts = { style: "currency", currency: "BRL", notation: "compact", maximumFractionDigits: digits };
+      var nf = new Intl.NumberFormat("pt-BR", opts);
+      return ticks.map(function (t) { return nf.format(t); });
+    }
+    for (var digits = 0; digits < 2; digits++) {
+      if (at(digits).join("|") === at(digits + 1).join("|")) return at(digits);
+    }
+    return at(2);
+  }
+
+  // yAxisPad formats the ticks and measures the left padding they need from
+  // the longest one; drawYAxis then draws the grid and the labels.
+  function yAxisPad(format, max) {
+    var labels = axisLabels(format, [0, max / 4, max / 2, (max * 3) / 4, max]);
+    var longest = labels.reduce(function (m, l) { return Math.max(m, l.length); }, 0);
+    return { labels: labels, padL: Math.max(40, Math.round(longest * 6.2) + 14) };
+  }
+  function drawYAxis(svg, axis, W, padR, padT, plotH) {
+    for (var g = 0; g <= 4; g++) {
+      var gy = padT + plotH - (plotH * g) / 4;
+      svg.appendChild(svgEl("line", { x1: axis.padL, y1: gy, x2: W - padR, y2: gy, stroke: "currentColor", "stroke-opacity": 0.08 }));
+      var lbl = svgEl("text", { x: axis.padL - 8, y: gy + 4, "text-anchor": "end", "font-size": 10, fill: mutedColor() });
+      lbl.textContent = axis.labels[g];
+      svg.appendChild(lbl);
+    }
+  }
+
+  // xLabelStep: show every k-th category label so labels never overlap, and
+  // always the last one (counted back from the end).
+  function xLabelStep(labels, step) {
+    var longest = labels.reduce(function (m, l) { return Math.max(m, String(l).length); }, 0);
+    return Math.max(1, Math.ceil((longest * 6.4 + 8) / Math.max(step, 1)));
+  }
+  function drawXLabel(svg, text, x, y, W, edgeGuard) {
+    var anchor = "middle";
+    var half = String(text).length * 3.2;
+    if (edgeGuard && x - half < 4) anchor = "start";
+    if (edgeGuard && x + half > W - 4) anchor = "end";
+    var tx = svgEl("text", { x: x, y: y, "text-anchor": anchor, "font-size": 11, fill: mutedColor() });
+    tx.textContent = text;
+    svg.appendChild(tx);
+  }
+  // categoryLines fits a bar's category name in its slot: one line, two lines
+  // split at a space, or cut with "…". A bar without its name can't be read, so
+  // categories are never skipped; null when the slot is too narrow for that.
+  function categoryLines(text, slot) {
+    var fit = Math.floor((slot - 6) / 6.4);
+    var s = String(text);
+    if (fit < 4) return null;
+    if (s.length <= fit) return [s];
+    var cut = function (t) { return t.length <= fit ? t : t.slice(0, fit - 1).trimEnd() + "…"; };
+    var best = -1;
+    for (var i = 0; i < s.length; i++) {
+      if (s[i] === " " && (best < 0 || Math.abs(s.length / 2 - i) < Math.abs(s.length / 2 - best))) best = i;
+    }
+    if (best < 0) return [cut(s)];
+    return [cut(s.slice(0, best)), cut(s.slice(best + 1))];
+  }
+  function legend(el, items) {
+    var box = document.createElement("div");
+    box.className = "chart-legend";
+    items.forEach(function (it) {
+      var row = document.createElement("span");
+      var dot = document.createElement("i");
+      dot.style.background = it.color;
+      row.appendChild(dot);
+      row.appendChild(document.createTextNode((it.label || "") + (it.value ? " " : "")));
+      if (it.value) {
+        var v = document.createElement("b");
+        v.textContent = it.value;
+        row.appendChild(v);
+      }
+      box.appendChild(row);
+    });
+    resolve(el).appendChild(box);
+  }
+  var seriesPalette = ["#1baf7a", "#eda100", "#e34948", "#4a3aa7", "#e87ba4", "#0ea5b7"];
+
+  // format accepts a function OR one of the fmt names ("num" | "brl" | "pct").
+  // A page's function may return nothing or throw: the chart prints its
+  // number instead of taking the rest of the page script down with it.
+  function coerceFormat(spec) {
+    if (typeof spec === "function") {
+      return function (v) {
+        try {
+          var out = spec(v);
+          return out == null ? "" : String(out);
+        } catch (e) {
+          return fmt.num(v);
+        }
+      };
+    }
+    if (typeof spec === "string" && fmt[spec]) return fmt[spec];
+    return function (v) { return fmt.num(v); };
+  }
+
+  function accent() {
+    return getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#2563eb";
+  }
+  function mutedColor() {
+    return getComputedStyle(document.documentElement).getPropertyValue("--text-muted").trim() || "#5b6472";
+  }
+  function svgEl(tag, attrs) {
+    var el = document.createElementNS("http://www.w3.org/2000/svg", tag);
+    for (var k in attrs) el.setAttribute(k, attrs[k]);
+    return el;
+  }
+  function frame(el, w, h) {
+    var svg = svgEl("svg", { viewBox: "0 0 " + w + " " + h, role: "img" });
+    el = resolve(el);
+    el.innerHTML = "";
+    el.appendChild(svg);
+    return svg;
+  }
+
+  // maxOf guards the axis scale: empty values would give -Infinity (truthy,
+  // so "|| 1" can't catch it) and a non-positive max would flip the chart.
+  // finite reads a chart value as a number, 0 when it is not one (NaN,
+  // Infinity, a stray string), so one bad value cannot blank the axis.
+  function finite(v) {
+    var n = +v;
+    return isFinite(n) ? n : 0;
+  }
+
+  function maxOf(values) {
+    var m = values.length ? Math.max.apply(null, values.map(finite)) : 0;
+    return m > 0 ? m : 1;
+  }
+
+  // labelsFor pads or trims the category names to the n points drawn: pages
+  // pass labels and values of different lengths, and one throw here loses
+  // every section the page renders after the chart.
+  function labelsFor(cfg, n) {
+    var out = [];
+    for (var i = 0; i < n; i++) out.push(cfg.labels && cfg.labels[i] != null ? String(cfg.labels[i]) : "");
+    return out;
+  }
+
+  // niceMax rounds the scale up so the four grid steps land on round values
+  // (1, 1.5, 2, 2.5, 3, 4, 5, 6 or 8 × 10^k) and the tick labels read exactly.
+  function niceMax(max) {
+    var raw = max / 4;
+    var mag = Math.pow(10, Math.floor(Math.log10(raw)));
+    var res = raw / mag;
+    var steps = [1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10];
+    var nice = steps.filter(function (s) { return s >= res - 1e-9; })[0];
+    return nice * mag * 4;
+  }
+
+  // bar(el, {labels:[], values:[], color?, format?}) — vertical bar chart.
+  function bar(el, cfg) {
+    var W = 640, H = 280, padB = 30, padT = 12, padR = 12;
+    var max = niceMax(maxOf(cfg.values));
+    var axis = yAxisPad(cfg.format, max);
+    var svg = frame(el, W, H);
+    var n = cfg.values.length;
+    var labels = labelsFor(cfg, n);
+    var plotW = W - axis.padL - padR;
+    var step = plotW / n, bw = Math.min(step * 0.62, 64);
+    var names = labels.map(function (l) { return categoryLines(l, step); });
+    var named = names.every(Boolean);
+    if (named && names.some(function (l) { return l.length > 1; })) padB = 42;
+    var plotH = H - padT - padB;
+    var color = cfg.color || accent();
+    var f = coerceFormat(cfg.format);
+    var every = xLabelStep(labels, step);
+    drawYAxis(svg, axis, W, padR, padT, plotH);
+    cfg.values.forEach(function (v, i) {
+      var bh = Math.max(0, (finite(v) / max) * plotH);
+      var x = axis.padL + i * step + (step - bw) / 2;
+      var y = padT + plotH - bh;
+      var r = svgEl("rect", { x: x, y: y, width: bw, height: bh, rx: 4, fill: (cfg.colors && cfg.colors[i]) || color });
+      var t = svgEl("title", {});
+      t.textContent = labels[i] + ": " + f(v);
+      r.appendChild(t);
+      svg.appendChild(r);
+      if (named) {
+        names[i].forEach(function (text, li) {
+          drawXLabel(svg, text, x + bw / 2, padT + plotH + 18 + li * 13, W, false);
+        });
+      } else if ((n - 1 - i) % every === 0) {
+        drawXLabel(svg, labels[i], x + bw / 2, H - 10, W, false);
+      }
+    });
+  }
+
+  // line(el, {labels:[], values:[] | series:[{label, values, color?}], color?, format?})
+  // — one line, or several series on one scale with a legend under the chart.
+  function line(el, cfg) {
+    var W = 640, H = 280, padB = 30, padT = 12, padR = 16;
+    var series = cfg.series && cfg.series.length
+      ? cfg.series
+      : [{ label: "", values: cfg.values || [], color: cfg.color }];
+    var all = [];
+    series.forEach(function (s) { all = all.concat(s.values || []); });
+    var max = niceMax(maxOf(all));
+    var axis = yAxisPad(cfg.format, max);
+    var svg = frame(el, W, H);
+    var n = series.reduce(function (m, s) { return Math.max(m, (s.values || []).length); }, 0);
+    var labels = labelsFor(cfg, n);
+    var plotW = W - axis.padL - padR, plotH = H - padT - padB;
+    var f = coerceFormat(cfg.format);
+    drawYAxis(svg, axis, W, padR, padT, plotH);
+    var xs = labels.map(function (_, i) { return axis.padL + (n === 1 ? plotW / 2 : (plotW * i) / (n - 1)); });
+    var every = xLabelStep(labels, n > 1 ? plotW / (n - 1) : plotW);
+    labels.forEach(function (label, i) {
+      if ((n - 1 - i) % every === 0) drawXLabel(svg, label, xs[i], H - 10, W, true);
+    });
+    var colors = series.map(function (s, si) {
+      return s.color || (si === 0 ? (cfg.color || accent()) : seriesPalette[(si - 1) % seriesPalette.length]);
+    });
+    series.forEach(function (s, si) {
+      var color = colors[si];
+      var pts = (s.values || []).map(function (v, i) { return [xs[i], padT + plotH - (finite(v) / max) * plotH]; });
+      var d = pts.map(function (p, i) { return (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1); }).join(" ");
+      svg.appendChild(svgEl("path", { d: d, fill: "none", stroke: color, "stroke-width": 2, "stroke-linejoin": "round" }));
+      pts.forEach(function (p, i) {
+        var c = svgEl("circle", { cx: p[0], cy: p[1], r: 3.5, fill: color });
+        var t = svgEl("title", {});
+        t.textContent = (s.label ? s.label + " · " : "") + labels[i] + ": " + f(s.values[i]);
+        c.appendChild(t);
+        svg.appendChild(c);
+      });
+    });
+    if (series.length > 1) {
+      legend(el, series.map(function (s, si) { return { label: s.label, color: colors[si] }; }));
+    }
+  }
+
+  // donut(el, {labels:[], values:[], colors?, format?, center?, centerLabel?, legend?})
+  // — donut with a short total in the centre (compact, in the declared unit)
+  // and, with legend: true, the labels and shares listed under it.
+  function donut(el, cfg) {
+    var W = 320, H = 280, cx = W / 2, cy = H / 2, R = 92, r = 58;
+    var svg = frame(el, W, H);
+    // At 100% of a wide container the donut outgrows the height pages give
+    // the box and spills over the next section: keep it at its own size.
+    svg.style.maxWidth = W + "px";
+    svg.style.margin = "0 auto";
+    var values = cfg.values.map(finite);
+    var labels = labelsFor(cfg, values.length);
+    var sum = values.reduce(function (a, b) { return a + b; }, 0);
+    var total = sum || 1;
+    var palette = cfg.colors || [accent()].concat(seriesPalette);
+    // The hover keeps the full value; the centre has room for a short one.
+    var full = coerceFormat(cfg.format);
+    var short = typeof cfg.format === "function" ? full : cfg.format === "brl" ? fmt.brlCompact : fmt.compact;
+    var a0 = -Math.PI / 2;
+    values.forEach(function (v, i) {
+      var a1 = a0 + (v / total) * Math.PI * 2;
+      var large = a1 - a0 > Math.PI ? 1 : 0;
+      var p = ["M", cx + R * Math.cos(a0), cy + R * Math.sin(a0),
+        "A", R, R, 0, large, 1, cx + R * Math.cos(a1), cy + R * Math.sin(a1),
+        "L", cx + r * Math.cos(a1), cy + r * Math.sin(a1),
+        "A", r, r, 0, large, 0, cx + r * Math.cos(a0), cy + r * Math.sin(a0), "Z"].join(" ");
+      var path = svgEl("path", { d: p, fill: palette[i % palette.length] });
+      var t = svgEl("title", {});
+      t.textContent = labels[i] + ": " + full(v) + " (" + fmt.pct(v / total) + ")";
+      path.appendChild(t);
+      svg.appendChild(path);
+      a0 = a1;
+    });
+    // A share chart has no total worth printing: without its own centre text
+    // the caption alone takes the middle.
+    var text = cfg.center != null ? String(cfg.center) : (cfg.format === "pct" ? "" : short(sum));
+    if (text) {
+      var size = text.length > 9 ? 14 : text.length > 7 ? 17 : 20;
+      var center = svgEl("text", { x: cx, y: cfg.centerLabel ? cy + 1 : cy + 6, "text-anchor": "middle", "font-size": size, "font-weight": 650, fill: "currentColor" });
+      center.textContent = text;
+      svg.appendChild(center);
+    }
+    if (cfg.centerLabel) {
+      var cap = svgEl("text", { x: cx, y: text ? cy + 19 : cy + 5, "text-anchor": "middle", "font-size": 11, fill: mutedColor() });
+      cap.textContent = cfg.centerLabel;
+      svg.appendChild(cap);
+    }
+    if (cfg.legend) {
+      legend(el, labels.map(function (label, i) {
+        return { label: label, color: palette[i % palette.length], value: fmt.pct(values[i] / total) };
+      }));
+    }
+  }
+
+  // ---- Page building blocks: what dashboards and small systems kept
+  // re-implementing — a searchable sortable table, a KPI row, tabs, toasts,
+  // dialogs, saved state and mock data. Every call is opt-in, so a page that
+  // brings its own versions keeps them.
+
+  function resolve(target) {
+    return typeof target === "string" ? document.querySelector(target) : target;
+  }
+
+  function node(tag, className, text) {
+    var el = document.createElement(tag);
+    if (className) el.className = className;
+    if (text != null) el.textContent = text;
+    return el;
+  }
+
+  function isNumberColumn(col) {
+    return col.align === "right" || col.format === "num" || col.format === "brl" || col.format === "pct";
+  }
+
+  function cellText(col, row) {
+    var value = row[col.key];
+    if (value == null) return "";
+    return col.format ? coerceFormat(col.format)(value) : String(value);
+  }
+
+  function compareValues(a, b) {
+    if (typeof a === "number" && typeof b === "number") return a - b;
+    return String(a == null ? "" : a).localeCompare(String(b == null ? "" : b), "pt-BR", { numeric: true });
+  }
+
+  // table(el, {columns, rows, search?, pageSize?, empty?, onRowClick?}) — a
+  // table.shell-table with sortable headers, an optional search box and
+  // pager. A column is {key, label, format?, align?, sortable? (true),
+  // render?(value, row) returning a Node or an HTML string — the page writes
+  // its cell templates as markup}. Plain values are always set as text.
+  // Returns {setRows, rows}.
+  function table(target, cfg) {
+    var root = resolve(target);
+    var cols = cfg.columns || [];
+    var pageSize = cfg.pageSize || 0;
+    var state = { rows: (cfg.rows || []).slice(), query: "", key: null, dir: 1, page: 0 };
+    root.innerHTML = "";
+    if (cfg.search) {
+      var search = node("input", "input skip-table-search");
+      search.type = "search";
+      search.placeholder = typeof cfg.search === "string" ? cfg.search : "Buscar…";
+      search.setAttribute("aria-label", search.placeholder);
+      search.addEventListener("input", function () {
+        state.query = search.value.trim().toLowerCase();
+        state.page = 0;
+        draw();
+      });
+      root.appendChild(search);
+    }
+    var tableEl = node("table", "shell-table");
+    var headRow = node("tr");
+    var heads = cols.map(function (col) {
+      var th = node("th", isNumberColumn(col) ? "num" : "", col.label == null ? col.key : col.label);
+      th.scope = "col";
+      if (col.sortable !== false) {
+        var toggle = function () {
+          state.dir = state.key === col.key ? -state.dir : 1;
+          state.key = col.key;
+          draw();
+        };
+        th.setAttribute("data-sort", col.key);
+        th.tabIndex = 0;
+        th.addEventListener("click", toggle);
+        th.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
+        });
+      }
+      headRow.appendChild(th);
+      return th;
+    });
+    var thead = node("thead");
+    var tbody = node("tbody");
+    var wrap = node("div", "skip-table-wrap");
+    var pager = node("div", "skip-pager");
+    thead.appendChild(headRow);
+    tableEl.appendChild(thead);
+    tableEl.appendChild(tbody);
+    wrap.appendChild(tableEl);
+    root.appendChild(wrap);
+    if (pageSize) root.appendChild(pager);
+
+    function visibleRows() {
+      var rows = state.rows;
+      if (state.query) {
+        rows = rows.filter(function (row) {
+          return cols.some(function (col) { return cellText(col, row).toLowerCase().indexOf(state.query) >= 0; });
+        });
+      }
+      if (state.key) {
+        var key = state.key, dir = state.dir;
+        rows = rows.slice().sort(function (a, b) { return dir * compareValues(a[key], b[key]); });
+      }
+      return rows;
+    }
+
+    function drawRow(row) {
+      var tr = node("tr");
+      cols.forEach(function (col) {
+        var td = node("td", isNumberColumn(col) ? "num" : "");
+        if (!col.render) {
+          td.textContent = cellText(col, row);
+        } else {
+          var content = col.render(row[col.key], row);
+          if (content instanceof Node) td.appendChild(content);
+          else td.innerHTML = content == null ? "" : String(content);
+        }
+        tr.appendChild(td);
+      });
+      // The row stays a row (no role) and takes focus, so a keyboard reaches
+      // the same action; keys pressed on a control inside a cell are its own.
+      if (cfg.onRowClick) {
+        tr.style.cursor = "pointer";
+        tr.tabIndex = 0;
+        tr.addEventListener("click", function () { cfg.onRowClick(row); });
+        tr.addEventListener("keydown", function (e) {
+          if (e.target !== tr || (e.key !== "Enter" && e.key !== " ")) return;
+          e.preventDefault();
+          cfg.onRowClick(row);
+        });
+      }
+      return tr;
+    }
+
+    function pagerButton(label, disabled, step) {
+      var button = node("button", "btn", label);
+      button.type = "button";
+      button.setAttribute("data-variant", "outline");
+      button.setAttribute("data-size", "sm");
+      button.disabled = disabled;
+      button.addEventListener("click", function () { state.page += step; draw(); });
+      return button;
+    }
+
+    function draw() {
+      var rows = visibleRows();
+      heads.forEach(function (th, i) {
+        if (cols[i].key === state.key) th.setAttribute("aria-sort", state.dir > 0 ? "ascending" : "descending");
+        else th.removeAttribute("aria-sort");
+      });
+      var pages = pageSize ? Math.max(1, Math.ceil(rows.length / pageSize)) : 1;
+      state.page = Math.min(state.page, pages - 1);
+      var shown = pageSize ? rows.slice(state.page * pageSize, (state.page + 1) * pageSize) : rows;
+      tbody.innerHTML = "";
+      if (!shown.length) {
+        var empty = node("td", "skip-table-empty", cfg.empty || "Nenhum registro encontrado.");
+        empty.colSpan = cols.length;
+        tbody.appendChild(node("tr")).appendChild(empty);
+      }
+      shown.forEach(function (row) { tbody.appendChild(drawRow(row)); });
+      if (!pageSize) return;
+      pager.innerHTML = "";
+      var from = rows.length ? state.page * pageSize + 1 : 0;
+      pager.appendChild(node("span", "", from + "–" + Math.min(rows.length, (state.page + 1) * pageSize) + " de " + rows.length));
+      var nav = node("div", "row gap-2");
+      nav.appendChild(pagerButton("Anterior", state.page === 0, -1));
+      nav.appendChild(pagerButton("Próxima", state.page >= pages - 1, 1));
+      pager.appendChild(nav);
+    }
+
+    draw();
+    return {
+      setRows: function (rows) { state.rows = rows.slice(); draw(); },
+      rows: visibleRows
+    };
+  }
+
+  // kpis(el, [{label, value, format?, delta?, hint?}]) — KPI cards in a
+  // responsive grid; delta is a fraction (0.12 renders as ▲ 12%).
+  function kpis(target, items) {
+    var root = resolve(target);
+    root.innerHTML = "";
+    root.classList.add("shell-grid");
+    items.forEach(function (item) {
+      var card = node("div", "panel kpi");
+      card.appendChild(node("span", "kpi-label", item.label));
+      // Large money values go compact ("R$ 27,5 mi"): the full amount does
+      // not fit a KPI card at four per row.
+      var kpiFormat = item.format === "brl" && Math.abs(item.value) >= 1e6 ? fmt.brlCompact : (item.format ? coerceFormat(item.format) : null);
+      card.appendChild(node("span", "kpi-value", kpiFormat ? kpiFormat(item.value) : String(item.value)));
+      if (typeof item.delta === "number") {
+        var up = item.delta >= 0;
+        card.appendChild(node("span", "kpi-delta " + (up ? "up" : "down"), (up ? "▲ " : "▼ ") + fmt.pct(Math.abs(item.delta))));
+      }
+      if (item.hint) card.appendChild(node("span", "kpi-label", item.hint));
+      root.appendChild(card);
+    });
+  }
+
+  // badge(text, variant?) — a .badge node for table cells and lists;
+  // variant is "secondary" | "outline" | "destructive" (default: primary).
+  function badge(text, variant) {
+    var el = node("span", "badge", text);
+    if (variant) el.setAttribute("data-variant", variant);
+    return el;
+  }
+
+  // tabs(el) — wires one .tabs block: [role=tab] buttons inside
+  // [role=tablist], each with aria-controls naming its [role=tabpanel].
+  function tabs(target) {
+    var root = resolve(target);
+    var buttons = Array.prototype.slice.call(root.querySelectorAll('[role="tab"]'));
+    function select(chosen) {
+      buttons.forEach(function (b) {
+        var on = b === chosen;
+        b.setAttribute("aria-selected", on ? "true" : "false");
+        b.tabIndex = on ? 0 : -1;
+        var panel = document.getElementById(b.getAttribute("aria-controls"));
+        if (panel) panel.hidden = !on;
+      });
+    }
+    buttons.forEach(function (b, i) {
+      b.addEventListener("click", function () { select(b); });
+      b.addEventListener("keydown", function (e) {
+        var step = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+        if (!step) return;
+        var next = buttons[(i + step + buttons.length) % buttons.length];
+        next.focus();
+        select(next);
+      });
+    });
+    select(buttons.filter(function (b) { return b.getAttribute("aria-selected") === "true"; })[0] || buttons[0]);
+  }
+
+  // toast(message, {type?: "success" | "error", title?, duration?}) — a
+  // .toast in a shared .toaster at the bottom of the page.
+  function toast(message, opts) {
+    opts = opts || {};
+    var toaster = document.querySelector(".toaster") || document.body.appendChild(node("div", "toaster"));
+    var item = node("div", "toast");
+    item.setAttribute("role", opts.type === "error" ? "alert" : "status");
+    item.setAttribute("aria-hidden", "true");
+    if (opts.type) item.setAttribute("data-type", opts.type);
+    var content = node("div", "toast-content");
+    var section = node("section");
+    if (opts.title) section.appendChild(node("h2", "", opts.title));
+    section.appendChild(node("p", "", message));
+    content.appendChild(section);
+    item.appendChild(content);
+    toaster.appendChild(item);
+    requestAnimationFrame(function () { item.setAttribute("aria-hidden", "false"); });
+    setTimeout(function () {
+      item.setAttribute("aria-hidden", "true");
+      setTimeout(function () { item.remove(); }, 400);
+    }, opts.duration || 3000);
+  }
+
+  // Dialogs are native <dialog class="dialog">: a [data-dialog-open="id"]
+  // anywhere opens one, a [data-dialog-close] inside closes it, and a click on
+  // its backdrop closes it too. Plain dialog.showModal()/close() still work.
+  document.addEventListener("click", function (e) {
+    var target = e.target;
+    if (!(target instanceof Element)) return;
+    var opener = target.closest("[data-dialog-open]");
+    if (opener) {
+      var dialog = document.getElementById(opener.getAttribute("data-dialog-open"));
+      if (dialog && dialog.showModal && !dialog.open) dialog.showModal();
+      return;
+    }
+    var closer = target.closest("[data-dialog-close]");
+    if (closer && closer.closest("dialog")) {
+      closer.closest("dialog").close();
+      return;
+    }
+    if (target.tagName === "DIALOG" && target.classList.contains("dialog") && target.open) target.close();
+  });
+
+  // store(key, fallback) — JSON state in localStorage that never throws (a
+  // private window or a full quota falls back to memory): {get, set, update}.
+  function store(key, fallback) {
+    var memory;
+    // Set while the last write did not reach localStorage: what is stored
+    // there is older than memory until a write goes through again.
+    var unsaved = false;
+    var initial = function () { return fallback === undefined ? undefined : JSON.parse(JSON.stringify(fallback)); };
+    function get() {
+      if (!unsaved) {
+        try {
+          var raw = localStorage.getItem(key);
+          if (raw != null) return JSON.parse(raw);
+        } catch (e) { /* storage unavailable: memory below */ }
+      }
+      return memory !== undefined ? memory : initial();
+    }
+    function set(value) {
+      memory = value;
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+        unsaved = false;
+      } catch (e) {
+        unsaved = true;
+      }
+      return value;
+    }
+    return { get: get, set: set, update: function (fn) { return set(fn(get())); } };
+  }
+
+  // mock — seeded random data, so a page asks for 90 days of numbers in one
+  // line instead of writing them out; the same seed gives the same data.
+  var FIRST = ["Ana", "Bruno", "Carla", "Diego", "Eduarda", "Felipe", "Gabriela", "Henrique", "Isabela", "João",
+    "Larissa", "Marcos", "Natália", "Otávio", "Paula", "Rafael", "Sofia", "Thiago", "Vanessa", "Lucas"];
+  var LAST = ["Silva", "Santos", "Oliveira", "Souza", "Pereira", "Costa", "Rodrigues", "Almeida", "Nascimento", "Lima",
+    "Araújo", "Fernandes", "Carvalho", "Gomes", "Martins", "Rocha", "Ribeiro", "Barbosa"];
+  var INITIALS = "ABCDEFGHIJLMNOPRSTV".split("");
+  var CITIES = ["São Paulo, SP", "Rio de Janeiro, RJ", "Belo Horizonte, MG", "Curitiba, PR", "Porto Alegre, RS",
+    "Salvador, BA", "Recife, PE", "Fortaleza, CE", "Brasília, DF", "Goiânia, GO", "Campinas, SP", "Florianópolis, SC",
+    "Manaus, AM", "Belém, PA", "Vitória, ES", "Natal, RN"];
+
+  function createMock(seed) {
+    var state = seed >>> 0;
+    var names = 0;
+    function random() {
+      state = (state + 0x6d2b79f5) >>> 0;
+      var t = state;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    }
+    function int(min, max) { return min + Math.floor(random() * (max - min + 1)); }
+    function pick(list) { return list[Math.floor(random() * list.length)]; }
+    var mock = {
+      seed: function (value) { state = value >>> 0; names = 0; return mock; },
+      random: random,
+      int: int,
+      float: function (min, max, decimals) {
+        var factor = Math.pow(10, decimals == null ? 2 : decimals);
+        return Math.round((min + random() * (max - min)) * factor) / factor;
+      },
+      pick: pick,
+      chance: function (p) { return random() < p; },
+      // There are 360 first/last pairs. A page that draws until the name is
+      // new (do { … } while (used.has(name))) froze the tab past them, so
+      // later draws widen the space: a second surname after 200 (6,480), a
+      // middle initial after 4,000.
+      name: function () {
+        names++;
+        var middle = names > 4000 ? pick(INITIALS) + ". " : "";
+        return pick(FIRST) + " " + middle + (names > 200 ? pick(LAST) + " " : "") + pick(LAST);
+      },
+      city: function () { return pick(CITIES); },
+      // series(n, {start, trend, noise, min, decimals}) — a walk: each value
+      // moves by trend (fraction per step) plus up to ±noise of itself.
+      series: function (n, opts) {
+        opts = opts || {};
+        var value = opts.start == null ? 100 : opts.start;
+        var factor = Math.pow(10, opts.decimals || 0);
+        var out = [];
+        for (var i = 0; i < n; i++) {
+          out.push(Math.max(opts.min == null ? 0 : opts.min, Math.round(value * factor) / factor));
+          value = value * (1 + (opts.trend || 0)) * (1 + (random() * 2 - 1) * (opts.noise == null ? 0.08 : opts.noise));
+        }
+        return out;
+      },
+      // dates(n, {end?, step?: "day" | "week" | "month"}) — ISO dates
+      // (YYYY-MM-DD), oldest first, ending at end (default: today).
+      dates: function (n, opts) {
+        opts = opts || {};
+        var end = opts.end ? new Date(opts.end) : new Date();
+        var out = [];
+        for (var i = n - 1; i >= 0; i--) {
+          var d = new Date(end.getTime());
+          if (opts.step === "month") d.setMonth(d.getMonth() - i);
+          else d.setDate(d.getDate() - i * (opts.step === "week" ? 7 : 1));
+          out.push(d.toISOString().slice(0, 10));
+        }
+        return out;
+      },
+      // rows(n, spec) — n objects; each spec value is a function(i), a list
+      // to pick from, or a constant.
+      rows: function (n, spec) {
+        var out = [];
+        for (var i = 0; i < n; i++) {
+          var row = {};
+          for (var key in spec) {
+            var value = spec[key];
+            row[key] = typeof value === "function" ? value(i) : Array.isArray(value) ? pick(value) : value;
+          }
+          out.push(row);
+        }
+        return out;
+      }
+    };
+    return mock;
+  }
+
+  window.skipShell = { fmt: fmt };
+  window.skipChart = { bar: bar, line: line, donut: donut };
+  window.skipUI = { table: table, kpis: kpis, badge: badge, tabs: tabs, toast: toast };
+  window.skipStore = store;
+  window.skipMock = createMock(20261022);
+})();
+
+</script>
+<style>
+:root {
+--accent: #2b7bb9;
+--accent-text: #1d5f92;
+--accent-contrast: #ffffff;
+}
+body {
+background: linear-gradient(180deg, #eef6fb 0%, #f5fbf7 100%);
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+}
+.quiz-card {
+background: var(--surface);
+border-radius: 18px;
+box-shadow: 0 6px 20px rgba(20, 60, 90, 0.08);
+padding: 24px;
+}
+.module-tag {
+display: inline-block;
+padding: 4px 12px;
+border-radius: 999px;
+background: #dff1e7;
+color: #1f6b47;
+font-size: 0.8rem;
+font-weight: 600;
+}
+.progress-track {
+height: 10px;
+background: #dbe7ef;
+border-radius: 999px;
+overflow: hidden;
+}
+.progress-fill {
+height: 100%;
+width: 0%;
+background: linear-gradient(90deg, #2b7bb9, #3aa675);
+transition: width 0.4s ease;
+border-radius: 999px;
+}
+.option-btn {
+display: block;
+width: 100%;
+text-align: left;
+padding: 16px 18px;
+margin-bottom: 12px;
+border-radius: 14px;
+border: 2px solid #cfe0ec;
+background: #ffffff;
+color: #1b2f3f;
+font-size: 1.05rem;
+cursor: pointer;
+transition: transform 0.15s ease, border-color 0.2s ease, background 0.2s ease;
+}
+.option-btn:hover:not(:disabled) {
+border-color: #2b7bb9;
+transform: translateY(-1px);
+}
+.option-btn:focus-visible {
+outline: 3px solid #2b7bb9;
+outline-offset: 2px;
+}
+.option-btn:disabled {
+cursor: default;
+}
+.option-btn.correct {
+background: #d7f3e3;
+border-color: #2e9a64;
+color: #14432c;
+font-weight: 600;
+}
+.option-btn.wrong {
+background: #fde2e2;
+border-color: #c94a4a;
+color: #6e1d1d;
+font-weight: 600;
+}
+.feedback-box {
+margin-top: 8px;
+padding: 16px;
+border-radius: 14px;
+line-height: 1.55;
+}
+.feedback-box.ok {
+background: #e6f6ee;
+color: #14432c;
+}
+.feedback-box.no {
+background: #fdeeee;
+color: #6e1d1d;
+}
+.hint-box {
+margin-top: 12px;
+padding: 12px 14px;
+border-radius: 12px;
+background: #fff7e0;
+color: #5a4305;
+font-size: 0.95rem;
+}
+.bar-track {
+height: 14px;
+background: #e3edf4;
+border-radius: 999px;
+overflow: hidden;
+}
+.bar-fill {
+height: 100%;
+border-radius: 999px;
+transition: width 0.6s ease;
+}
+.bar-fill.weak {
+background: linear-gradient(90deg, #d9793b, #e0a34a);
+}
+.bar-fill.good {
+background: linear-gradient(90deg, #2b7bb9, #3aa675);
+}
+.review-item {
+border-left: 4px solid #c94a4a;
+padding: 16px;
+border-radius: 12px;
+background: #fbf7f7;
+margin-bottom: 14px;
+}
+.hero-score {
+background: linear-gradient(135deg, #e3f1fb 0%, #e2f5ea 100%);
+border-radius: 18px;
+padding: 28px;
+text-align: center;
+}
+.hero-score .big {
+font-size: 3.2rem;
+font-weight: 700;
+color: var(--accent-text);
+line-height: 1.1;
+}
+.hero-score .label {
+text-transform: uppercase;
+letter-spacing: 0.08em;
+font-size: 0.8rem;
+color: #3e5a6e;
+font-weight: 600;
+}
+.button-row {
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+}
+.header-title {
+font-size: clamp(1.6rem, 4vw, 2.2rem);
+font-weight: 700;
+color: #1b3a52;
+margin: 0;
+}
+.fade-in {
+animation: fadeIn 0.35s ease;
+}
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(6px); }
+to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 600px) {
+.quiz-card { padding: 18px; }
+.option-btn { font-size: 1rem; padding: 14px; }
+}
+</style>
+</head>
+<body>
+<header class="shell-container p-4" style="width:100%;">
+<div class="row between" style="flex-wrap:wrap; gap:12px;">
+<div>
+<span class="shell-badge eyebrow">📘 Preparação · 3º Trimestre</span>
+<h1 class="header-title mt-2">Desafio de Matemática 🧮</h1>
+<p class="muted text-sm m-0 mt-1">6º Ano — Sistema Anglo (Módulos 27, 28, 31 e 32)</p>
+</div>
+<div class="row gap-2">
+<span class="badge" data-variant="secondary" id="badgeAnswered">0 respondidas</span>
+<span class="badge" data-variant="outline" id="badgeScore">0 acertos</span>
+</div>
+</div>
+</header>
+
+<main class="shell-container p-4" style="width:100%; flex:1;">
+<section id="quizScreen" class="fade-in">
+<div class="quiz-card">
+<div class="row between" style="flex-wrap:wrap; gap:10px;">
+<span class="module-tag" id="moduleTag">Módulo 27</span>
+<span class="text-sm font-semibold" id="counter">Questão 1 de 24</span>
+</div>
+<p class="muted text-xs mt-2 mb-2">Escolha uma alternativa. A correção aparece na hora, com explicação.</p>
+<div class="progress-track mb-4"><div class="progress-fill" id="progressFill"></div></div>
+<h2 class="text-lg font-semibold mt-2" id="questionText" style="line-height:1.5;"></h2>
+<div class="mt-4" id="optionsBox"></div>
+<div id="hintArea"></div>
+<div class="row between mt-3" style="flex-wrap:wrap; gap:10px;">
+<button type="button" class="btn" data-variant="ghost" id="hintBtn">💡 Precisa de uma dica?</button>
+<button type="button" class="btn" id="nextBtn" disabled>Próxima</button>
+</div>
+<div id="feedbackArea"></div>
+</div>
+</section>
+
+<section id="resultScreen" hidden class="fade-in">
+<div class="hero-score">
+<div class="label">Seu desempenho</div>
+<div class="big" id="scorePercent">0%</div>
+<p class="m-0 mt-2 text-sm" id="scoreDetail">0 de 24 acertos</p>
+<p class="m-0 mt-3 font-semibold" id="scoreMessage"></p>
+</div>
+<div class="quiz-card mt-4">
+<h2 class="text-lg font-semibold m-0">Desempenho por módulo</h2>
+<p class="muted text-xs mt-1 mb-3">Acertos sobre o total de questões de cada módulo. A barra laranja indica o ponto mais fraco.</p>
+<div id="moduleBars" class="stack gap-3"></div>
+<p class="text-sm mt-3" id="weakNote"></p>
+</div>
+<div class="button-row mt-4">
+<button type="button" class="btn" id="reviewBtn">Revisar respostas</button>
+<button type="button" class="btn" data-variant="secondary" id="retryWrongBtn">Refazer só os erros</button>
+<button type="button" class="btn" data-variant="outline" id="retryAllBtn">Refazer o quiz completo</button>
+<button type="button" class="btn" data-variant="ghost" id="copyBtn">Copiar resultado</button>
+</div>
+</section>
+
+<section id="reviewScreen" hidden class="fade-in">
+<div class="quiz-card">
+<div class="row between" style="flex-wrap:wrap; gap:10px;">
+<div>
+<h2 class="text-lg font-semibold m-0">Revisão dos erros</h2>
+<p class="muted text-xs mt-1 m-0">Para cada questão errada: sua resposta, a correta e a explicação.</p>
+</div>
+<button type="button" class="btn" data-variant="outline" id="backToResultBtn">Voltar ao resultado</button>
+</div>
+<div class="mt-4" id="reviewList"></div>
+</div>
+</section>
+</main>
+
+<footer class="shell-footer p-3 text-center muted text-xs">
+Conteúdo baseado nos módulos 27, 28, 31 e 32 da apostila Anglo · Prof.ª Fátima
+</footer>
+
+<script>
+const QUESTIONS = [
+{ module: "Módulo 27", question: "Faça a conversão: 150 km equivalem a quantos metros?", options: ["a) 1 500 m","b) 15 000 m","c) 150 000 m","d) 1 500 000 m"], correct: 2, hint: "Na escada do comprimento, de quilômetro para metro são três degraus descendo. Cada degrau multiplica por 10.", explanation: "De km para m são 3 degraus descendo (km → hm → dam → m), então multiplica por 1000. 150 × 1000 = 150 000 m. Quem marca 15 000 andou só dois degraus." },
+{ module: "Módulo 27", question: "O pai de Bruno pediu no açougue 5 quilogramas e 50 decagramas de carne. Por que o açougueiro não entendeu o pedido?", options: ["a) Porque 50 decagramas é uma quantidade impossível de medir","b) Porque decagrama é uma unidade que não se usa no dia a dia do açougue","c) Porque 5 quilogramas é pouco para um churrasco","d) Porque o açougueiro só trabalha com gramas"], correct: 1, hint: "Decagrama existe na escada da massa, mas você já viu alguém pedir decagramas em uma loja?", explanation: "O decagrama existe na escada das unidades de massa, mas não faz parte do uso cotidiano. O jeito correto de pedir seria em quilos ou gramas: 50 dag = 500 g, então o pedido é 5 500 g, ou 5,5 kg." },
+{ module: "Módulo 27", question: "Joana usou 350 g de um pacote de 1 kg de farinha. Quantos gramas sobraram no pacote?", options: ["a) 550 g","b) 650 g","c) 750 g","d) 350 g"], correct: 1, hint: "Antes de subtrair, deixe as duas medidas na mesma unidade. 1 kg são quantos gramas?", explanation: "1 kg = 1000 g. Depois, 1000 − 350 = 650 g. Conferindo: 350 + 650 = 1000, então está certo. Quem responde 550 provavelmente errou a subtração com o zero." },
+{ module: "Módulo 27", question: "A distância entre a estação de tratamento e um consumidor é de 23,632 km. Se cada tubo mede 2,5 m, quantos tubos, no mínimo, serão necessários?", options: ["a) 9 452 tubos","b) 9 453 tubos","c) 9 452,8 tubos","d) 9 500 tubos"], correct: 1, hint: "Primeiro converta km em m. Depois, para dividir por 2,5, ande uma casa com a vírgula nos dois números: 236 320 ÷ 25.", explanation: "23,632 km = 23 632 m. Para tirar a vírgula do divisor, ande uma casa nos dois: 236 320 ÷ 25 = 9 452,8. Como não existe fração de tubo e a pergunta é o mínimo necessário, arredonda para cima: 9 453 tubos. Quem marca 9 452 vai ficar faltando um pedaço." },
+{ module: "Módulo 27", question: "Ana disse que sua corda mede 2,30 m. Antônia disse que a dela é maior, pois tem 200 cm e 300 mm. O que é correto afirmar?", options: ["a) Antônia está certa: a corda dela é maior","b) As duas cordas têm o mesmo tamanho: 2,3 m","c) A corda de Ana é maior, pois 2,30 é maior que 2,3","d) Não é possível comparar medidas em unidades diferentes"], correct: 1, hint: "Converta 200 cm e 300 mm para metro e some. Depois compare com 2,30 m.", explanation: "200 cm = 2 m e 300 mm = 0,3 m. Somando: 2 + 0,3 = 2,3 m. Então as duas cordas têm o mesmo tamanho — 2,30 e 2,3 são o mesmo número. A medida de Antônia está certa, mas a afirmação de que a dela é maior está errada." },
+{ module: "Módulo 27", question: "Uma escada tem 7 degraus iguais e altura total de 1,54 m. Qual é a altura de cada degrau em centímetros?", options: ["a) 20 cm","b) 22 cm","c) 24 cm","d) 25 cm"], correct: 1, hint: "O divisor é 7, que já é inteiro — não precisa do truque da vírgula. Divida e depois converta para centímetro.", explanation: "1,54 ÷ 7 = 0,22 m. A vírgula sobe direto, porque o divisor é inteiro. Depois, 0,22 × 100 = 22 cm. Conferindo: 22 × 7 = 154 cm = 1,54 m." },
+{ module: "Módulo 27", question: "Uma corda de 1 275 mm é maior que outra de 140 cm?", options: ["a) Sim, porque 1 275 é maior que 140","b) Não, porque 1 275 mm equivalem a 127,5 cm","c) Sim, porque milímetro é maior que centímetro","d) Não é possível comparar"], correct: 1, hint: "Número grande com unidade pequena pode ser menor. Converta 1 275 mm para centímetro antes de comparar.", explanation: "De mm para cm é um degrau subindo, então divide por 10: 1 275 ÷ 10 = 127,5 cm. Como 127,5 < 140, a corda de 140 cm é maior. A pegadinha é olhar só o número e esquecer a unidade." },
+{ module: "Módulo 27", question: "Assinale a grafia CORRETA das unidades de medida:", options: ["a) 5 Kms, 20 Hrs e 3 Mts","b) 5 km, 20 h e 3 m","c) 5 kms, 20 hrs e 3 mts","d) 5 Km, 20 H e 3 Mt"], correct: 1, hint: "Os símbolos das unidades são minúsculos, não levam ponto e não vão para o plural.", explanation: "Os símbolos são sempre minúsculos, sem ponto e sem 's' de plural: 5 km, 20 h, 3 m. A única exceção é o litro, que usa L maiúsculo para não confundir com o número 1." },
+{ module: "Módulo 28", question: "Calcule a área de um retângulo cujos lados medem 11 cm e 13 cm.", options: ["a) 24 cm²","b) 48 cm²","c) 143 cm²","d) 169 cm²"], correct: 2, hint: "Área do retângulo é um lado vezes o lado vizinho: A = b × c.", explanation: "11 × 13 = 143 cm². Quem marca 169 está calculando 13 × 13, que é a área de um QUADRADO de lado 13. Quem marca 24 somou os lados, o que dá o perímetro, não a área." },
+{ module: "Módulo 28", question: "Um quadrado tem perímetro de 52 cm. Qual é a sua área?", options: ["a) 169 cm²","b) 676 cm²","c) 208 cm²","d) 52 cm²"], correct: 0, hint: "O perímetro é o contorno, não o lado. Primeiro descubra o lado dividindo o perímetro por 4.", explanation: "Perímetro do quadrado é 4 × lado, então lado = 52 ÷ 4 = 13 cm. Depois a área: 13 × 13 = 169 cm². Quem marca 676 fez 52 × 52, usando o perímetro como se fosse o lado." },
+{ module: "Módulo 28", question: "Calcule a área de um triângulo com base 7 cm e altura 4 cm.", options: ["a) 28 cm²","b) 14 cm²","c) 11 cm²","d) 56 cm²"], correct: 1, hint: "O triângulo é metade do retângulo de mesma base e altura. Por isso a fórmula divide por 2.", explanation: "A = (base × altura) ÷ 2 = (7 × 4) ÷ 2 = 28 ÷ 2 = 14 cm². Quem marca 28 esqueceu de dividir por 2 — essa é a pegadinha mais comum do módulo." },
+{ module: "Módulo 28", question: "Um quadrado de lado 1,5 mm tem área de:", options: ["a) 3 mm²","b) 2,25 mm²","c) 6 mm²","d) 1,5 mm²"], correct: 1, hint: "Área do quadrado é lado vezes lado, e não lado vezes 2.", explanation: "1,5 × 1,5 = 2,25 mm². Multiplicando sem a vírgula: 15 × 15 = 225, e como são duas casas decimais, volta como 2,25. Quem marca 3 fez 1,5 × 2, confundindo área com dobro." },
+{ module: "Módulo 28", question: "Se dobrarmos a medida dos lados de um retângulo, o que acontece com o perímetro e com a área?", options: ["a) Perímetro dobra e área dobra","b) Perímetro dobra e área quadruplica","c) Perímetro quadruplica e área dobra","d) Perímetro e área não mudam"], correct: 1, hint: "Teste com números: um retângulo de 6 × 4 tem perímetro 20 e área 24. O dobrado é 12 × 8. Calcule os dois.", explanation: "6 × 4 tem perímetro 20 e área 24. Dobrando os lados: 12 × 8 tem perímetro 40 (dobrou) e área 96 (quadruplicou, pois 96 = 4 × 24). A área cresce ao quadrado, o perímetro cresce na proporção simples." },
+{ module: "Módulo 28", question: "Uma parede retangular de 5 m por 3 m tem uma janela quadrada de 1 m de lado. Qual é a área de parede que será efetivamente pintada?", options: ["a) 15 m²","b) 14 m²","c) 13 m²","d) 11 m²"], correct: 1, hint: "Calcule a área da parede inteira e SUBTRAIA a área da janela, que não será pintada.", explanation: "Parede: 5 × 3 = 15 m². Janela: 1 × 1 = 1 m². Área pintada: 15 − 1 = 14 m². Quem marca 15 esqueceu de descontar a janela." },
+{ module: "Módulo 31", question: "Qual é o menor número de dois algarismos divisível por 2, 3 e 5 simultaneamente?", options: ["a) 15","b) 30","c) 60","d) 90"], correct: 1, hint: "Para ser divisível por 2 e por 5 ao mesmo tempo, o número precisa terminar em zero. Depois teste o critério do 3.", explanation: "Terminando em zero, os candidatos de dois algarismos são 10, 20, 30... O critério do 3 pede soma dos algarismos múltipla de 3: 10 dá 1, 20 dá 2, 30 dá 3. Então o menor é 30." },
+{ module: "Módulo 31", question: "O número 1 433 não é divisível por 9. Qual é o menor número que devemos adicionar a ele para que se torne divisível por 9?", options: ["a) 1","b) 3","c) 5","d) 7"], correct: 3, hint: "Some os algarismos de 1 433. Depois veja qual é o próximo múltiplo de 9 acima dessa soma.", explanation: "1 + 4 + 3 + 3 = 11. O próximo múltiplo de 9 depois de 11 é 18. Falta 18 − 11 = 7. Então somando 7 chegamos a 1 440, cuja soma dos algarismos é 9." },
+{ module: "Módulo 31", question: "Quais desses pares são formados por números primos entre si?", options: ["a) Apenas 15 e 16","b) 15 e 16, e também 25 e 36","c) Apenas 33 e 15","d) Todos os três pares"], correct: 1, hint: "Primos entre si significa que o ÚNICO divisor comum é o 1. Compare os conjuntos de divisores de cada par.", explanation: "D(15)={1,3,5,15} e D(16)={1,2,4,8,16}: só o 1 em comum, então são primos entre si. D(33)={1,3,11,33} e D(15)={1,3,5,15}: têm o 3 em comum, então NÃO são. D(25)={1,5,25} e D(36) tem só o 1 em comum, então são. Resposta: 15 e 16, e 25 e 36." },
+{ module: "Módulo 31", question: "João caminha a cada 4 dias e Pedro a cada 6 dias. Se se encontraram hoje, daqui a quantos dias se encontrarão novamente? (escolha um valor possível)", options: ["a) 30 dias","b) 32 dias","c) 36 dias","d) 42 dias"], correct: 2, hint: "Liste os múltiplos de 4 e de 6 e procure os que aparecem nas duas listas.", explanation: "Múltiplos de 4: 4, 8, 12, 16, 20, 24, 28, 32, 36... Múltiplos de 6: 6, 12, 18, 24, 30, 36... Os comuns são 12, 24, 36. Das alternativas, só 36 serve. Note que 12 também seria válido, mas não está nas opções." },
+{ module: "Módulo 31", question: "No jogo 'Avançando com o Resto', a ficha está na casa 12 e você tira 5 no dado. Quantas casas você avança?", options: ["a) 2 casas","b) 5 casas","c) 0 casas, pois não avança","d) 12 casas"], correct: 0, hint: "A regra do jogo é avançar o RESTO da divisão, e não o quociente.", explanation: "12 ÷ 5 = 2 com resto 2. O avanço é o RESTO, então avança 2 casas. Quem responde 5 está usando o número do dado, e quem responde 0 confundiu com divisão exata. A regra é sempre o resto." },
+{ module: "Módulo 31", question: "Um número é divisível por 6 quando:", options: ["a) É divisível por 2 e por 3 ao mesmo tempo","b) É divisível por 2 e por 5 ao mesmo tempo","c) Termina em 6","d) A soma dos algarismos é 6"], correct: 0, hint: "6 = 2 × 3. Para ser divisível por 6, o número precisa passar nos critérios dos dois fatores.", explanation: "Como 6 = 2 × 3, um número é divisível por 6 quando é divisível por 2 (é par) e por 3 (soma dos algarismos múltipla de 3) ao mesmo tempo. Terminar em 6 não basta: 16 não é divisível por 6." },
+{ module: "Módulo 32", question: "De 1 até 100, quantos números primos terminam com o algarismo 9?", options: ["a) 4","b) 5","c) 6","d) 7"], correct: 1, hint: "Liste os terminados em 9: 9, 19, 29, 39, 49, 59, 69, 79, 89, 99. Teste cada um pelos primos 2, 3, 5 e 7.", explanation: "Os primos terminados em 9 são 19, 29, 59, 79 e 89 — cinco números. Os compostos são 9 (3×3), 39 (3×13), 49 (7×7), 69 (3×23) e 99 (9×11)." },
+{ module: "Módulo 32", question: "Ao decompor o número 180 em fatores primos, obtém-se:", options: ["a) 2 × 3² × 5","b) 2² × 3² × 5","c) 2² × 3 × 5²","d) 2³ × 3 × 5"], correct: 1, hint: "Faça a barrinha: 180 ÷ 2 = 90, ÷ 2 = 45, ÷ 3 = 15, ÷ 3 = 5, ÷ 5 = 1.", explanation: "180 = 2 × 90 = 2 × 2 × 45 = 2² × 3 × 15 = 2² × 3 × 3 × 5 = 2² × 3² × 5. Conferindo: 4 × 9 × 5 = 180. Quem marca a esqueceu um dos fatores 3." },
+{ module: "Módulo 32", question: "Um número natural A tem fatoração A = 2² × 3 × 7. Qual é o maior divisor NÃO primo de A?", options: ["a) 7","b) 28","c) 42","d) 84"], correct: 3, hint: "Primeiro calcule o valor de A. Depois lembre: o maior divisor de qualquer número é ele mesmo.", explanation: "A = 4 × 3 × 7 = 84. O maior divisor de um número é sempre ele próprio, e 84 não é primo. Então o maior divisor não primo é 84. Quem marca 42 ou 28 está escolhendo divisores menores." },
+{ module: "Módulo 32", question: "Ao testar se o número 143 é primo, dividindo-o por 2, 3, 5, 7 e 11, conclui-se que:", options: ["a) Ele é primo, pois é um número ímpar","b) Ele não é primo, pois é divisível por 11 (143 = 11 × 13)","c) Ele é primo, pois o quociente ficou menor que o divisor","d) Ele não é primo, pois é divisível por 3"], correct: 1, hint: "Faça a divisão 143 ÷ 11 e veja se o resto é zero.", explanation: "143 ÷ 11 = 13 com resto 0. Como a divisão é exata, 143 = 11 × 13 e ele tem mais de dois divisores, então é composto. Ser ímpar não garante que seja primo — essa é a pegadinha." }
+];
+
+const state = {
+order: [],
+current: 0,
+answers: [],
+hintShown: [],
+done: false,
+mode: "full"
+};
+
+const el = id => document.getElementById(id);
+
+function buildOrder(mode) {
+if (mode === "wrong") {
+return state.answers.map((a, i) => (a !== null && a !== QUESTIONS[i].correct) ? i : -1).filter(i => i >= 0);
+}
+return QUESTIONS.map((_, i) => i);
+}
+
+function startQuiz(mode) {
+state.mode = mode;
+state.order = buildOrder(mode);
+if (state.order.length === 0) {
+window.skipUI.toast("Não há erros para refazer. Parabéns!", { type: "success" });
+return;
+}
+state.current = 0;
+state.answers = QUESTIONS.map(() => null);
+state.hintShown = QUESTIONS.map(() => false);
+state.done = false;
+showScreen("quiz");
+renderQuestion();
+updateBadges();
+}
+
+function showScreen(name) {
+el("quizScreen").hidden = name !== "quiz";
+el("resultScreen").hidden = name !== "result";
+el("reviewScreen").hidden = name !== "review";
+window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function currentQ() {
+return QUESTIONS[state.order[state.current]];
+}
+
+function renderQuestion() {
+const qIndex = state.order[state.current];
+const q = QUESTIONS[qIndex];
+const total = state.order.length;
+el("moduleTag").textContent = q.module;
+el("counter").textContent = `Questão ${state.current + 1} de ${total}`;
+el("progressFill").style.width = `${(state.current / total) * 100}%`;
+el("questionText").textContent = q.question;
+el("feedbackArea").innerHTML = "";
+el("hintArea").innerHTML = "";
+el("hintBtn").disabled = false;
+el("nextBtn").disabled = true;
+el("nextBtn").textContent = state.current === total - 1 ? "Ver resultado" : "Próxima";
+
+const box = el("optionsBox");
+box.innerHTML = "";
+q.options.forEach((opt, i) => {
+const b = document.createElement("button");
+b.type = "button";
+b.className = "option-btn";
+b.textContent = opt;
+b.dataset.index = i;
+b.addEventListener("click", () => answer(i));
+box.appendChild(b);
+});
+
+if (state.hintShown[qIndex]) showHint();
+}
+
+function showHint() {
+const q = currentQ();
+el("hintArea").innerHTML = `<div class="hint-box">💡 <strong>Dica:</strong> ${q.hint}</div>`;
+}
+
+function answer(choice) {
+const qIndex = state.order[state.current];
+if (state.answers[qIndex] !== null) return;
+const q = QUESTIONS[qIndex];
+state.answers[qIndex] = choice;
+const buttons = el("optionsBox").querySelectorAll(".option-btn");
+buttons.forEach((b, i) => {
+b.disabled = true;
+if (i === q.correct) b.classList.add("correct");
+if (i === choice && choice !== q.correct) b.classList.add("wrong");
+});
+el("hintBtn").disabled = true;
+const ok = choice === q.correct;
+el("feedbackArea").innerHTML = `
+<div class="feedback-box ${ok ? "ok" : "no"} fade-in">
+<strong>${ok ? "Correto!" : "Não foi dessa vez."}</strong>
+<p class="m-0 mt-1">${q.explanation}</p>
+</div>`;
+el("nextBtn").disabled = false;
+updateBadges();
+}
+
+function nextQuestion() {
+if (state.current < state.order.length - 1) {
+state.current++;
+renderQuestion();
+} else {
+finishQuiz();
+}
+}
+
+function getScoreForOrder() {
+let hits = 0;
+state.order.forEach(i => { if (state.answers[i] === QUESTIONS[i].correct) hits++; });
+return hits;
+}
+
+function updateBadges() {
+const answered = state.answers.filter(a => a !== null).length;
+let hits = 0;
+state.answers.forEach((a, i) => { if (a === QUESTIONS[i].correct) hits++; });
+el("badgeAnswered").textContent = `${answered} respondidas`;
+el("badgeScore").textContent = `${hits} acertos`;
+}
+
+function getModuleStats() {
+const mods = {};
+["Módulo 27", "Módulo 28", "Módulo 31", "Módulo 32"].forEach(m => {
+mods[m] = { total: 0, hits: 0 };
+});
+QUESTIONS.forEach((q, i) => {
+if (!mods[q.module]) return;
+if (state.answers[i] === null) return;
+mods[q.module].total++;
+if (state.answers[i] === q.correct) mods[q.module].hits++;
+});
+return mods;
+}
+
+function getFullModuleTotals() {
+const totals = {};
+QUESTIONS.forEach(q => { totals[q.module] = (totals[q.module] || 0) + 1; });
+return totals;
+}
+
+function finishQuiz() {
+state.done = true;
+const answeredIdx = state.order.filter(i => state.answers[i] !== null);
+const hits = answeredIdx.filter(i => state.answers[i] === QUESTIONS[i].correct).length;
+const pct = Math.round((hits / state.order.length) * 100);
+el("progressFill").style.width = "100%";
+el("scorePercent").textContent = `${pct}%`;
+el("scoreDetail").textContent = `${hits} de ${state.order.length} acertos nesta rodada`;
+let msg;
+if (pct > 85) msg = "Sensacional! Você dominou a matéria.";
+else if (pct >= 65) msg = "Muito bom! Você está preparada para a prova.";
+else if (pct >= 45) msg = "Bom esforço! Revise os módulos em que errou.";
+else msg = "Não desanime! Revise o material com calma e refaça o quiz.";
+el("scoreMessage").textContent = msg;
+
+const totals = getFullModuleTotals();
+const stats = {};
+Object.keys(totals).forEach(m => { stats[m] = { total: totals[m], hits: 0 }; });
+state.order.forEach(i => {
+const q = QUESTIONS[i];
+if (state.answers[i] === q.correct) stats[q.module].hits++;
+});
+let weakest = null;
+let weakestPct = 101;
+const bars = Object.keys(stats).map(m => {
+const p = Math.round((stats[m].hits / stats[m].total) * 100);
+if (p < weakestPct) { weakestPct = p; weakest = m; }
+return { m, p, hits: stats[m].hits, total: stats[m].total };
+});
+el("moduleBars").innerHTML = bars.map(b => `
+<div>
+<div class="row between text-sm mb-1">
+<span class="font-semibold">${b.m}</span>
+<span class="muted">${b.hits}/${b.total} · ${b.p}%</span>
+</div>
+<div class="bar-track"><div class="bar-fill ${b.m === weakest ? "weak" : "good"}" style="width:${b.p}%"></div></div>
+</div>`).join("");
+el("weakNote").innerHTML = `📌 Ponto de atenção: <strong>${weakest}</strong> teve o pior desempenho (${weakestPct}%). Reveja essas questões antes da prova.`;
+
+const wrongCount = state.order.filter(i => state.answers[i] !== QUESTIONS[i].correct).length;
+el("retryWrongBtn").disabled = wrongCount === 0;
+el("retryWrongBtn").textContent = wrongCount === 0 ? "Sem erros para refazer" : `Refazer só os erros (${wrongCount})`;
+updateBadges();
+showScreen("result");
+}
+
+function renderReview() {
+const wrong = QUESTIONS.map((q, i) => ({ q, i })).filter(({ q, i }) => state.answers[i] !== null && state.answers[i] !== q.correct);
+if (wrong.length === 0) {
+el("reviewList").innerHTML = `<p class="muted">Nenhum erro nesta rodada. Muito bem!</p>`;
+return;
+}
+el("reviewList").innerHTML = wrong.map(({ q, i }) => `
+<div class="review-item">
+<div class="module-tag mb-2">${q.module}</div>
+<p class="font-semibold m-0 mb-2">${q.question}</p>
+<p class="m-0 text-sm">❌ <strong>Sua resposta:</strong> ${q.options[state.answers[i]]}</p>
+<p class="m-0 text-sm mt-1">✅ <strong>Resposta correta:</strong> ${q.options[q.correct]}</p>
+<p class="m-0 text-sm mt-2"><strong>Explicação:</strong> ${q.explanation}</p>
+</div>`).join("");
+}
+
+function copyResult() {
+const pct = el("scorePercent").textContent;
+const text = `Desafio de Matemática — 6º Ano\nResultado: ${pct}\n${el("scoreDetail").textContent}\n${el("scoreMessage").textContent}`;
+if (navigator.clipboard) {
+navigator.clipboard.writeText(text).then(() => window.skipUI.toast("Resultado copiado!", { type: "success" }), () => window.skipUI.toast("Não foi possível copiar.", { type: "error" }));
+} else {
+window.skipUI.toast("Cópia indisponível neste navegador.", { type: "error" });
+}
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+el("hintBtn").addEventListener("click", () => {
+const qIndex = state.order[state.current];
+state.hintShown[qIndex] = true;
+showHint();
+window.skipUI.toast("Dica revelada");
+});
+el("nextBtn").addEventListener("click", () => {
+if (!el("nextBtn").disabled) nextQuestion();
+});
+el("reviewBtn").addEventListener("click", () => { renderReview(); showScreen("review"); });
+el("backToResultBtn").addEventListener("click", () => showScreen("result"));
+el("retryWrongBtn").addEventListener("click", () => {
+startQuiz("wrong");
+window.skipUI.toast("Refazendo apenas as questões erradas", { type: "success" });
+});
+el("retryAllBtn").addEventListener("click", () => {
+startQuiz("full");
+window.skipUI.toast("Quiz completo reiniciado", { type: "success" });
+});
+el("copyBtn").addEventListener("click", copyResult);
+startQuiz("full");
+});
+</script>
+</body>
+</html>
