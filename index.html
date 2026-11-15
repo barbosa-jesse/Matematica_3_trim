@@ -1044,6 +1044,9 @@ background: var(--surface);
 border-radius: 18px;
 box-shadow: 0 6px 20px rgba(20, 60, 90, 0.08);
 padding: 24px;
+max-width: 540px;
+margin: 0 auto;
+width: 100%;
 }
 .module-tag {
 display: inline-block;
@@ -1189,16 +1192,17 @@ to { opacity: 1; transform: translateY(0); }
 }
 @media (max-width: 600px) {
 .quiz-card { padding: 18px; }
+main.shell-container, header.shell-container { padding-left: 16px !important; padding-right: 16px !important; }
 .option-btn { font-size: 1rem; padding: 14px; }
 }
 </style>
 </head>
 <body>
-<header class="shell-container p-4" style="width:100%;">
+<header class="shell-container p-4" style="width:100%; max-width:540px; margin:0 auto;">
 <div class="row between" style="flex-wrap:wrap; gap:12px;">
 <div>
 <span class="shell-badge eyebrow">📘 Preparação · 3º Trimestre</span>
-<h1 class="header-title mt-2">Desafio de Matemática 🧮</h1>
+<h1 class="header-title mt-2">🧮 Desafio de Matemática</h1>
 <p class="muted text-sm m-0 mt-1">6º Ano — Módulos 27, 28, 31 e 32</p>
 </div>
 <div class="row gap-2">
@@ -1208,7 +1212,7 @@ to { opacity: 1; transform: translateY(0); }
 </div>
 </header>
 
-<main class="shell-container p-4" style="width:100%; flex:1;">
+<main class="shell-container p-4" style="width:100%; max-width:540px; margin:0 auto; flex:1;">
 <section id="quizScreen" class="fade-in">
 <div class="quiz-card">
 <div class="row between" style="flex-wrap:wrap; gap:10px;">
